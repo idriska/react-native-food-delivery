@@ -55,7 +55,6 @@ export const updateUserAddresses = async (addressData: any) => {
 };
 
 export const insertOrder = async (orderData: any) => {
-  console.log(orderData)
   await order.insert(orderData).then(_ => {
     basketStore.dispatch(clearBasketAction());
   });

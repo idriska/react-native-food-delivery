@@ -1,13 +1,13 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {FoodDeliveryProfileStackParam} from '../interfaces/interfaces';
+import {ProfileStackParam} from '../interfaces/interfaces';
 import MyOrders from '../screens/my-orders/MyOrders';
 import Profile from '../screens/profile/Profile';
 
-const Stack = createNativeStackNavigator<FoodDeliveryProfileStackParam>();
+const Stack = createNativeStackNavigator<ProfileStackParam>();
 
-const FoodDeliveryProfileStackNavigator = () => {
+const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Profile"
@@ -26,4 +26,4 @@ const FoodDeliveryProfileStackNavigator = () => {
   );
 };
 
-export default FoodDeliveryProfileStackNavigator;
+export default ProfileStackNavigator;

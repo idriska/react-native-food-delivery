@@ -52,7 +52,7 @@ const FoodDetailsModal = ({data, complete}: any) => {
       orderFood = {};
     } else {
       complete();
-      appNavigation.navigate('Profile');
+      appNavigation.navigate('ProfileNavigator');
     }
   };
 

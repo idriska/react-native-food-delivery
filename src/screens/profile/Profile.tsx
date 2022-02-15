@@ -7,7 +7,7 @@ import {AuthService} from '../../services/Auth';
 import {showToastMessage} from './../../services/Helper';
 import {useNavigation} from '@react-navigation/native';
 import {
-  FoodDeliveryProfileStackParam,
+  ProfileStackParam,
   FoodDeliveryTabParams,
 } from '../../interfaces/interfaces';
 import {userStore} from '../../redux/store';
@@ -42,7 +42,7 @@ const changeImage = async (image: any) => {
 
 const Profile = () => {
   const appNavigation = useNavigation<FoodDeliveryTabParams>();
-  const profileNavigation = useNavigation<FoodDeliveryProfileStackParam>();
+  const profileNavigation = useNavigation<ProfileStackParam>();
 
   const [seperatedItems, setSeperatedItems] = useState([
     {

@@ -5,12 +5,11 @@ import {FoodDeliveryTabParams} from '../interfaces/interfaces';
 import * as COLORS from './../styles/colors';
 import Home from '../screens/home/Home';
 import Basket from '../screens/basket/Basket';
-import Profile from '../screens/profile/Profile';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {basketStore} from '../redux/store';
-import FoodDeliveryProfileStackNavigator from './profile-stack-navigator';
+import ProfileStackNavigator from './profile-stack-navigator';
 
 const Tab = createBottomTabNavigator<FoodDeliveryTabParams>();
 
@@ -63,7 +62,7 @@ const FoodDeliveryTabNavigator = () => {
         />
         <Tab.Screen
           name="ProfileNavigator"
-          component={FoodDeliveryProfileStackNavigator}
+          component={ProfileStackNavigator}
           options={{
             tabBarIcon: ({color}) => (
               <FontAwesome name="user-circle-o" color={color} size={24} />

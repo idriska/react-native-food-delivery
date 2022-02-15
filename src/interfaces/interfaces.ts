@@ -2,6 +2,6 @@ export type FoodDeliveryTabParams = {
   [key: string]: any;
 };
 
-export type FoodDeliveryProfileStackParam = {
+export type ProfileStackParam = {
   [key: string]: any;
 }
