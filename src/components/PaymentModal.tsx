@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,16 +10,26 @@ import * as COLORS from '../styles/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CustomButton} from '../styles/styled-components';
 import {RadioButton} from 'react-native-paper';
+import {IAddress, IPaymentAction, IPaymentMethods} from '../interfaces/interfaces';
 
-const PaymentModal = ({
+
+interface PaymentModalProps {
+  addresses: IAddress[];
+  totalPrice: number;
+  currency?: string;
+  paymentMethods: IPaymentMethods[];
+  action: (data: IPaymentAction) => void;
+}
+
+const PaymentModal: FC<PaymentModalProps> = ({
   addresses = [],
   totalPrice = 0,
   currency = 'USD',
   paymentMethods = [],
   action,
-}: any) => {
+}) => {
   const [paymentMethod, setPaymentMethod] = useState(paymentMethods[0].title);
-  const [activeAddress, setActiveAddress] = useState(0);
+  const [activeAddress, setActiveAddress] = useState<number>(0);
 
   return (
     <View style={styles.container}>
@@ -66,8 +76,10 @@ const PaymentModal = ({
               />
               <Text style={styles.addAddressText}>ADD NEW ADDRESS</Text>
             </TouchableOpacity>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              {addresses.map((item: any, index: number) => (
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {addresses.map((item, index: number) => (
                 <TouchableOpacity
                   key={`addres-${index}`}
                   style={[
@@ -99,8 +111,12 @@ const PaymentModal = ({
         <RadioButton.Group
           onValueChange={value => setPaymentMethod(value)}
           value={paymentMethod}>
-          {paymentMethods.map((item: any, index: number) => (
-            <RadioButton.Item label={item.title} value={item.title}  key={`radiobtn-${index}`}/>
+          {paymentMethods.map((item, index: number) => (
+            <RadioButton.Item
+              label={item.title}
+              value={item.title}
+              key={`radiobtn-${index}`}
+            />
           ))}
         </RadioButton.Group>
       </View>

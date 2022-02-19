@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,18 @@ import {FoodCard} from '.';
 import {userStore} from '../redux/store';
 import {useNavigation} from '@react-navigation/native';
 import {FoodDeliveryTabParams} from '../interfaces/interfaces';
+import {Food} from '../services/bucket';
 
-const FoodDetailsModal = ({data, complete}: any) => {
+interface IComplete {
+  food: Food;
+  count: number;
+}
+interface FoodDetailsModalProps {
+  data: Food;
+  complete: (data?: IComplete) => void;
+}
+
+const FoodDetailsModal: FC<FoodDetailsModalProps> = ({data, complete}) => {
   const appNavigation = useNavigation<FoodDeliveryTabParams>();
   const [count, setCount] = useState(1);
   const [extras, setExtras] = useState<string[]>([]);
@@ -23,7 +33,7 @@ const FoodDetailsModal = ({data, complete}: any) => {
     orderFood = {
       _id: data._id,
       name: data.name,
-      ingredients: data.ingredients.map((i: any) => i.name),
+      ingredients: data.ingredients?.map((i: any) => i.name),
       price: data.price,
       image: data.image,
     };
@@ -69,13 +79,17 @@ const FoodDetailsModal = ({data, complete}: any) => {
       <FoodCard
         data={data}
         type="choice"
+        clicked={() => {}}
         changeCount={(value: number) => setCount(value)}
       />
       <View style={[styles.box, styles.flexDirectionCollumn]}>
         <Text style={styles.title}>Ingredients</Text>
         <Text>Please choose the materials that you want to remove.</Text>
-        <ScrollView style={styles.ingredients} horizontal={true} showsHorizontalScrollIndicator={false}>
-          {data.ingredients.map((item: any, index: number) => (
+        <ScrollView
+          style={styles.ingredients}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}>
+          {data.ingredients?.map((item: any, index: number) => (
             <TouchableOpacity
               style={[
                 styles.ingredientChip,
@@ -95,8 +109,11 @@ const FoodDetailsModal = ({data, complete}: any) => {
       <View style={[styles.box, styles.flexDirectionCollumn]}>
         <Text style={styles.title}>Extra Ingredients</Text>
         <Text>Please choose the materials that you want to add.</Text>
-        <ScrollView style={styles.ingredients} horizontal={true} showsHorizontalScrollIndicator={false}>
-          {data.ingredients.map((item: any, index: number) => (
+        <ScrollView
+          style={styles.ingredients}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}>
+          {data.ingredients?.map((item: any, index: number) => (
             <TouchableOpacity
               style={[
                 styles.ingredientChip,

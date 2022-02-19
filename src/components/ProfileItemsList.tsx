@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import * as COLORS from '../styles/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ISeperatedItems} from '../interfaces/interfaces';
+interface ProfileItemsListProps {
+  seperatedItems: ISeperatedItems[];
+  unseperatedItems: ISeperatedItems[];
+  navigateTo: (name: string) => void;
+  logout: () => void
+}
 
-const ProfileItemsList = ({
+const ProfileItemsList: FC<ProfileItemsListProps> = ({
   seperatedItems,
   unseperatedItems,
-  canLogout = true,
-  logout,
   navigateTo,
-}: any) => {
+  logout,
+}) => {
   return (
     <View>
       <View style={styles.seperateSection}>
@@ -22,19 +28,20 @@ const ProfileItemsList = ({
       </View>
       <View>
         {unseperatedItems.map((item: any, index: number) => (
-          <TouchableOpacity style={styles.itemBox} key={`unseperate-${index}`} onPress={() => navigateTo(item.navigator)}>
+          <TouchableOpacity
+            style={styles.itemBox}
+            key={`unseperate-${index}`}
+            onPress={() => navigateTo(item.navigator)}>
             <Text style={[styles.item, styles.itemKey]}>{item.value}</Text>
           </TouchableOpacity>
         ))}
       </View>
-      {canLogout && (
-        <TouchableOpacity
-          style={[styles.item, styles.itemBox, styles.logout]}
-          onPress={() => logout()}>
-          <Text style={styles.logoutText}>Logout</Text>
-          <MaterialCommunityIcons name="logout" size={20} />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        style={[styles.item, styles.itemBox, styles.logout]}
+        onPress={() => logout()}>
+        <Text style={styles.logoutText}>Logout</Text>
+        <MaterialCommunityIcons name="logout" size={20} />
+      </TouchableOpacity>
     </View>
   );
 };

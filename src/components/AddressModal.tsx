@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-} from 'react-native';
+import React, {FC, useState} from 'react';
+import {StyleSheet, View, KeyboardAvoidingView} from 'react-native';
+import {IAddress} from '../interfaces/interfaces';
 import * as COLORS from '../styles/colors';
 import {CustomInput, CustomButton} from '../styles/styled-components';
 
-const AddressModal = ({save}: any) => {
-  const [addressData, setAddressData] = useState({
+interface AddressModalProps {
+  save: (data: IAddress) => void;
+}
+
+const AddressModal: FC<AddressModalProps> = ({save}) => {
+  const [addressData, setAddressData] = useState<IAddress>({
     title: '',
     phone: '',
     country: '',

@@ -15,7 +15,7 @@ import {AuthService} from '../../services/Auth';
 const Home = () => {
   const authService = new AuthService();
   const [categories, setCategories] = useState<any>([]);
-  const [foods, setFoods] = useState<any>([]);
+  const [foods, setFoods] = useState<Food[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedFood, setSelectedFood] = useState<any>();
@@ -30,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     getFoods(activeCategory != 'all' ? activeCategory : undefined);
     const foodSub = foodStore.subscribe(() => {
-      setFoods(foodStore.getState());
+      setFoods(foodStore.getState() as any);
     });
 
     return () => {
@@ -39,12 +39,13 @@ const Home = () => {
   }, [activeCategory]);
 
   const renderFoods = () => {
-    return foods.map((item: any, index: number) => (
+    return foods.map((item, index) => (
       <FoodCard
         key={`food-${index}`}
         data={item}
         type="details"
-        clicked={(food: any) => {
+        changeCount={() => {}}
+        clicked={(food) => {
           setSelectedFood(food);
           setModalVisible(true);
         }}
@@ -88,7 +89,7 @@ const Home = () => {
         onSwipeComplete={() => setModalVisible(false)}>
         <FoodDetailsModal
           data={selectedFood}
-          complete={(data: any) => {
+          complete={(data) => {
             if (data) {
               addToOrder(data.food, data.count);
             }

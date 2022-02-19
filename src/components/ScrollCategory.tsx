@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {StyleSheet, ScrollView, Text, TouchableOpacity} from 'react-native';
+import { Category } from '../services/bucket';
 import * as COLORS from '../styles/colors';
 
-const ScrollCategory = ({categories, clicked}: any) => {
+interface ScrollCategoryProps {
+  categories: Category[];
+  clicked: (data: string) => void;
+}
+
+const ScrollCategory: FC<ScrollCategoryProps> = ({categories, clicked}) => {
   const [active, setActive] = useState('all');
 
   const changedActive = (value: string) => {
@@ -17,11 +23,11 @@ const ScrollCategory = ({categories, clicked}: any) => {
         onPress={() => changedActive('all')}>
         <Text style={styles.buttonText}>All</Text>
       </TouchableOpacity>
-      {categories.map((item: any, index: number) => (
+      {categories.map((item, index) => (
         <TouchableOpacity
           key={index}
           style={[styles.button, active === item._id && styles.activeButton]}
-          onPress={() => changedActive(item._id)}>
+          onPress={() => changedActive(item._id as string)}>
           <Text style={styles.buttonText}>{item.name}</Text>
         </TouchableOpacity>
       ))}

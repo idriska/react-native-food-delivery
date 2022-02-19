@@ -1,10 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 import * as COLORS from './../styles/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Food } from '../services/bucket';
 
-const FoodCard = ({data, changeCount, clicked, type}: any) => {
+interface FoodCardProps {
+  data: any;
+  type: 'details' | 'choice' | 'order';
+  changeCount: (value: number) => void;
+  clicked: (data: Food) => void;
+}
+
+const FoodCard: FC<FoodCardProps> = ({data, type, changeCount, clicked}) => {
   const [count, setCount] = useState(data.count ? data.count : 1);
   const [rating, setRating] = useState(0);
 

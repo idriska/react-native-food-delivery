@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from 'react-native';
+import React, {FC, useState} from 'react';
+import {StyleSheet, Text, View, TextInput} from 'react-native';
 import * as COLORS from '../styles/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CustomButton} from '../styles/styled-components';
+import {Rating} from '../services/bucket';
+interface RateModalProps {
+  title: string;
+  action: (data: Rating) => void;
+}
 
-const RateModal = ({title, action}: any) => {
+const RateModal: FC<RateModalProps> = ({title, action}) => {
   const [rating, setRating] = useState<number>(3);
   const [comment, setComment] = useState<string>('');
 
@@ -19,7 +19,7 @@ const RateModal = ({title, action}: any) => {
       <Text style={styles.title}>{title}</Text>
 
       <View style={styles.starsContainer}>
-        {[1, 2, 3, 4, 5].map((item: number, index: number) => (
+        {[1, 2, 3, 4, 5].map((item, index) => (
           <MaterialCommunityIcons
             onPress={() => setRating(item)}
             key={`star-${index}`}
@@ -39,7 +39,7 @@ const RateModal = ({title, action}: any) => {
         contentStyle={{height: 50}}
         style={styles.applyBtn}
         mode="contained"
-        onPress={() => action({rating: rating, comment: comment})}>
+        onPress={() => action({rating: rating as 1 | 2 | 3 | 4 | 5, comment: comment})}>
         APPLY
       </CustomButton>
     </View>

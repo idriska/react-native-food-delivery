@@ -1,14 +1,13 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import React, {FC} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import * as COLORS from '../styles/colors';
 import ImagePicker from 'react-native-image-crop-picker';
 
-const UploadImage = ({completed}: any) => {
+interface UploadImageProps {
+  completed: (data: any) => void;
+}
+
+const UploadImage: FC<UploadImageProps> = ({completed}) => {
   const uplodaImageHandle = async (value: string) => {
     let imageData: any;
     if (value === 'gallery') {

@@ -1,13 +1,24 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import * as COLORS from '../styles/colors';
 import {CustomInput, CustomButton} from '../styles/styled-components';
 
-const Authorization = ({login, register}: any) => {
+interface ICredentials {
+  email?: string;
+  name?: string;
+  surname?: string;
+  password?: string;
+}
+interface AuthorizationProps {
+  login: (data: ICredentials) => void;
+  register: (data: ICredentials) => void;
+}
+
+const Authorization: FC<AuthorizationProps> = ({login, register}) => {
   const [activeIndex, setActiveIndex] = useState<string>('login');
   const [showPassword, setShowPassword] = useState(false);
 
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<ICredentials>({
     email: '',
     name: '',
     surname: '',

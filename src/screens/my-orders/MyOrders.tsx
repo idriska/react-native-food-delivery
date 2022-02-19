@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, ScrollView, Text} from 'react-native';
 import {userStore} from '../../redux/store';
-import {food, order, rating} from '../../services/bucket';
+import {food, order, Rating, rating} from '../../services/bucket';
 import styles from './style';
 import * as COLORS from './../../styles/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -39,9 +39,9 @@ const MyOrders = () => {
     });
   };
 
-  const rate = async (data: any) => {
+  const rate = async (data: Rating) => {
     let user = userStore.getState();
-    let ratingData = {
+    let ratingData: Rating = {
       user: user._id,
       rating: data.rating,
       comment: data.comment,
@@ -114,7 +114,7 @@ const MyOrders = () => {
         style={{justifyContent: 'flex-end', margin: 0}}
         swipeDirection="down"
         onSwipeComplete={() => setShowRateModal(false)}>
-        <RateModal title="Rate Food" action={(data: any) => rate(data)} />
+        <RateModal title="Rate Food" action={(data: Rating) => rate(data)} />
       </Modal>
     </ScrollView>
   );

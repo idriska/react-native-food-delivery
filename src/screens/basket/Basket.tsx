@@ -3,7 +3,7 @@ import {ScrollView, View, TouchableOpacity, Text, Image} from 'react-native';
 import styles from './style';
 import {AddressModal, FoodCard, PaymentModal} from '../../components';
 import {basketStore, userStore} from '../../redux/store';
-import {Food} from '../../services/bucket';
+import {Food, Order} from '../../services/bucket';
 import {changeFoodCountAction} from '../../redux/basket/actions';
 import Modal from 'react-native-modal';
 import {insertOrder, updateUserAddresses} from '../../services/DataService';
@@ -20,7 +20,7 @@ const paymentMethods = [
 const Basket = () => {
   const appNavigation = useNavigation<FoodDeliveryTabParams>();
 
-  const [basket, setBasket] = useState<any>(basketStore.getState());
+  const [basket, setBasket] = useState<Order>(basketStore.getState());
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
@@ -34,11 +34,12 @@ const Basket = () => {
   }, [basket]);
 
   const renderBasket = () => {
-    return basket.foods?.map((item: any, index: number) => (
+    return basket.foods?.map((item, index) => (
       <FoodCard
         data={item}
         key={`order-${index}`}
         type="order"
+        clicked={() => {}}
         changeCount={(count: number) => {
           addToOrder(item, count);
         }}
@@ -93,7 +94,7 @@ const Basket = () => {
 
   return (
     <View style={styles.container}>
-      {basket.foods.length ? (
+      {basket.foods?.length ? (
         <>
           <ScrollView style={styles.foodContainer}>{renderBasket()}</ScrollView>
           <View style={styles.bottomTools}>
@@ -126,10 +127,10 @@ const Basket = () => {
         swipeDirection="down"
         onSwipeComplete={() => setShowPaymentModal(false)}>
         <PaymentModal
-          totalPrice={basket.price}
+          totalPrice={basket.price || 0}
           addresses={userStore.getState()?.address}
           paymentMethods={paymentMethods}
-          action={(data: any) => handlePaymenetAction(data)}
+          action={(data) => handlePaymenetAction(data)}
         />
       </Modal>
 
@@ -139,7 +140,7 @@ const Basket = () => {
         swipeDirection="down"
         onSwipeComplete={() => setShowAddressModal(false)}>
         <AddressModal
-          save={(addressData: any) => saveAddress(addressData)}
+          save={(addressData) => saveAddress(addressData)}
         />
       </Modal>
     </View>

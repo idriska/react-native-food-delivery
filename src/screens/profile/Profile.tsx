@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {
   ProfileStackParam,
   FoodDeliveryTabParams,
+  ISeperatedItems,
 } from '../../interfaces/interfaces';
 import {userStore} from '../../redux/store';
 import {
@@ -19,7 +20,7 @@ import {
 } from '../../components';
 import {updateUser} from '../../services/DataService';
 
-const unseperatedItems = [
+const unseperatedItems: ISeperatedItems[] = [
   {
     key: 'my_orders',
     value: 'My Orders',
@@ -31,7 +32,7 @@ const Profile = () => {
   const appNavigation = useNavigation<FoodDeliveryTabParams>();
   const profileNavigation = useNavigation<ProfileStackParam>();
 
-  const [seperatedItems, setSeperatedItems] = useState([
+  const [seperatedItems, setSeperatedItems] = useState<ISeperatedItems[]>([
     {
       key: 'Email',
       value: '',
@@ -153,10 +154,10 @@ const Profile = () => {
         </View>
       ) : (
         <Authorization
-          login={(data: any) => {
+          login={(data) => {
             login(data);
           }}
-          register={(data: any) => {
+          register={(data) => {
             register(data);
           }}
         />
