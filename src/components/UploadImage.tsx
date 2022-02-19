@@ -12,13 +12,11 @@ const UploadImage = ({completed}: any) => {
   const uplodaImageHandle = async (value: string) => {
     let imageData: any;
     if (value === 'gallery') {
-      imageData = await pickSingleWithGallery(true).catch((err) => {
-        console.log("My ERROR: ", err)
-      })
+      imageData = await pickSingleWithGallery(true).catch(err => {});
     } else if (value === 'camera') {
       imageData = await pickSingleWithCamera(true);
     }
-    // completed(imageData);
+    completed(imageData);
   };
 
   const pickSingleWithGallery = (cropping: boolean) => {

@@ -5,10 +5,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const defaultImage =
   'https://storage.googleapis.com/download/storage/v1/b/hq-spica-starters-7229b/o/61b70351fcfbb9002efed548?alt=media&timestamp=1639383890618';
 
-const ProfilePicture = ({imagePicker}: any) => {
+const ProfilePicture = ({imagePicker, thumbnail}: any) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.thumbnail} source={{uri: defaultImage}} />
+      <Image style={styles.thumbnail} source={{uri:  thumbnail || defaultImage}} />
       <TouchableOpacity style={styles.pickerBtn} onPress={() => imagePicker()}>
         <MaterialCommunityIcons name="camera-image" size={24} />
       </TouchableOpacity>

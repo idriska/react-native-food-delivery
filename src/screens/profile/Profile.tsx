@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './style';
 import {SafeAreaView, View} from 'react-native';
 import Modal from 'react-native-modal';
-import {upload} from '../../services/ImageUpload';
+import {getBufWithMeta, upload} from '../../services/ImageUpload';
 import {AuthService} from '../../services/Auth';
 import {showToastMessage} from './../../services/Helper';
 import {useNavigation} from '@react-navigation/native';
@@ -17,6 +17,7 @@ import {
   ProfilePicture,
   UploadImage,
 } from '../../components';
+import {updateUser} from '../../services/DataService';
 
 const unseperatedItems = [
   {
@@ -25,20 +26,6 @@ const unseperatedItems = [
     navigator: 'MyOrders',
   },
 ];
-
-const changeImage = async (image: any) => {
-  // uri: image.path,
-  // type: image.mime,
-  // console.log(image);
-  // setLoadingImage(true);
-  // const uploadedFile = event.target.files[0];
-  const newImage: any = await upload(image).catch(err => {
-    console.log(newImage);
-  });
-  console.log('newImage', newImage);
-  // changed({ ...user, thumbnail: newImage[0].url });
-  // setLoadingImage(false);
-};
 
 const Profile = () => {
   const appNavigation = useNavigation<FoodDeliveryTabParams>();
@@ -60,10 +47,10 @@ const Profile = () => {
   ]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [user, setUser] = useState<any>(userStore.getState());
+
   const authService = new AuthService();
 
   useEffect(() => {
-    prepareSeperateItems;
     let userData = userStore.getState();
     if (userData) {
       setUser(userData);
@@ -119,11 +106,38 @@ const Profile = () => {
     authService.logout();
   };
 
+  const changeImage = async (image: any) => {
+    const bufWithMeta = await getBufWithMeta(image);
+
+    let newImage: any = '';
+    let imageId;
+
+    if (!user['profile_picture']) {
+      newImage = await upload(bufWithMeta).catch(err => {
+        console.log(err);
+      });
+    } else {
+      let splitArr = user.profile_picture.split('/');
+      imageId = splitArr[splitArr.length - 1].split('?')[0];
+
+      newImage = await upload(bufWithMeta, imageId).catch(err => {
+        console.log(err);
+      });
+    }
+
+    if (newImage) {
+      user['profile_picture'] =
+        newImage.url + `&timestamp=${new Date().getTime()}`;
+      updateUser(user);
+    }
+  };
+
   return (
     <SafeAreaView>
       {user ? (
         <View style={styles.profileContainer}>
           <ProfilePicture
+            thumbnail={user.profile_picture}
             imagePicker={() => {
               setModalVisible(true);
             }}
@@ -155,6 +169,9 @@ const Profile = () => {
         onSwipeComplete={() => setModalVisible(false)}>
         <UploadImage
           completed={(data: any) => {
+            if (data) {
+              changeImage(data);
+            }
             setModalVisible(false);
           }}
         />

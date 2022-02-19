@@ -2,7 +2,7 @@ import {category, food, initialize, order, user} from './bucket';
 import {foodStore, basketStore, userStore} from '../redux/store';
 import {setFoodsAction} from '../redux/food/actions';
 import {clearBasketAction, setBasketAction} from '../redux/basket/actions';
-import {updateUserAddressesAction} from '../redux/user/actions';
+import {updateUserAction, updateUserAddressesAction} from '../redux/user/actions';
 
 export const getFoods = (catId: any = undefined) => {
   initialize({
@@ -59,3 +59,12 @@ export const insertOrder = async (orderData: any) => {
     basketStore.dispatch(clearBasketAction());
   });
 };
+
+export const updateUser = async (userData: any) => {
+  await user.patch({
+    _id: userData._id,
+    ...userData,
+  });
+  userStore.dispatch(updateUserAction(userData));
+};
+
